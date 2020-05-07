@@ -39,9 +39,10 @@ module.exports = (app) => {
   // req.params.id
   app.delete("/api/todos/:id", (req, res) => {
     // We just have to specify which todo we want to destroy with "where"
+    const { param: { id } } = req; // deconstruction
     db.Todo.destroy({
       where: {
-        id: req.params.id
+        id  // id: req.params.id   // deconstruction
       }
     }).then((dbTodo) => {
       res.json(dbTodo);
@@ -53,14 +54,14 @@ module.exports = (app) => {
   app.put("/api/todos", (req, res) => {
     // Update takes in an object describing the properties we want to update, and
     // we use where to describe which objects we want to update
-    const { body: { text, complete } } = req; // deconstruction
+    const { body: { text, complete, id } } = req; // deconstruction
 
     db.Todo.update({
       text,  //  text: req.body.text, // deconstruction
       complete  //  complete: req.body.complete // deconstruction
     }, {
       where: {
-        id: req.body.id
+        id  //  id: req.body.id // deconstruction
       }
     }).then((dbTodo) => {
       res.json(dbTodo);
